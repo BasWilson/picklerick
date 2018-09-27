@@ -114,11 +114,10 @@ var settings = {
         const origin = `<p>Oorsprong: ${characters.characters[i].origin.name}</p>`;
         const lastLocationName = `<p>Laatste locatie: ${characters.characters[i].location.name}</p>`;;
         const gender = `<p>Geslacht: ${characters.characters[i].gender}</p>`;
-        const lastEpisode = `<p>Laatste episode: ${GetOtherData(0, epNumber)}</p>`;
-        const lastEpisodeNumber = `<p>Laatste episode nummer: ${GetOtherData(0, epNumber)}</p>`;
+        const lastEpisode = `<p>Laatste episode: ${GetOtherData(0, epNumber)}, ${GetOtherData(1, epNumber)}</p>`;
         const buttons = `<a onclick="OpenDetailView(2, ${dimNumber});"class="detail-view-button">Location details</a> <a onclick="OpenDetailView(0, ${epNumber});" class="detail-view-button">Episode details</a>`
 
-        const html = img+name+status+species+origin+lastLocationName+lastDimension+gender+lastEpisode+lastEpisodeNumber+buttons;
+        const html = img+name+status+species+origin+lastLocationName+lastDimension+gender+lastEpisode+buttons;
         //Append het aan de html pagina
         $('.ricks').append(`<div style="background-color: rgba(0,0,0,0.3); padding: 10px; margin: 10px;">${html}</div>`);
  }
