@@ -19,6 +19,7 @@ var settings = {
     set: false
 };
 
+var settingsOpen = false;
  GetAllEpisodes();
 
  function GetAllCharacters () {
@@ -108,29 +109,32 @@ var settings = {
 
         epNumber = epNumber - 1;
         const img = `<img src="${characters.characters[i].image}" />`;
-        const name = `<p>Naam: ${characters.characters[i].name}</p>`;
+        const name = `<p>Name: ${characters.characters[i].name}</p>`;
         const status = `<p>Status: ${characters.characters[i].status}</p>`;
-        const species = `<p>Soort: ${characters.characters[i].species}</p>`;
-        const origin = `<p>Oorsprong: ${characters.characters[i].origin.name}</p>`;
-        const lastLocationName = `<p>Laatste locatie: ${characters.characters[i].location.name}</p>`;;
-        const gender = `<p>Geslacht: ${characters.characters[i].gender}</p>`;
-        const lastEpisode = `<p>Laatste episode: ${GetOtherData(0, epNumber)}, ${GetOtherData(1, epNumber)}</p>`;
+        const species = `<p>Species: ${characters.characters[i].species}</p>`;
+        const origin = `<p>Origin: ${characters.characters[i].origin.name}</p>`;
+        const lastLocationName = `<p>Last location: ${characters.characters[i].location.name}</p>`;;
+        const gender = `<p>Gender: ${characters.characters[i].gender}</p>`;
+        const lastEpisode = `<p>Last episode: ${GetOtherData(0, epNumber)}, ${GetOtherData(1, epNumber)}</p>`;
         const buttons = `<a onclick="OpenDetailView(2, ${dimNumber});"class="detail-view-button">Location details</a> <a onclick="OpenDetailView(0, ${epNumber});" class="detail-view-button">Episode details</a>`
 
         const html = img+name+status+species+origin+lastLocationName+lastDimension+gender+lastEpisode+buttons;
         //Append het aan de html pagina
-        $('.ricks').append(`<div style="background-color: rgba(0,0,0,0.3); padding: 10px; margin: 10px;">${html}</div>`);
+        $('.ricks').append(`<div class="character-card">${html}</div>`);
+        document.getElementById('scrollTo').scrollIntoView(true);
+
+
  }
 }
 
 function GetPages () {
     
     if ($('.pages').is(':empty')) {
-        var pages = `Character page: <select onchange="SwitchPage(this.value)">`;
+        var pages = `<div class="settings-div"><p>Character page <select class="inputField" onchange="SwitchPage(this.value)">`;
         for (let d = 1; d < characters.info.pages + 1; d++) {
             pages = pages + `<option value="${d}">${d}</option>`;
         }
-        pages = pages + `</select>`;
+        pages = pages + `</select></p></div>`;
         $('.pages').append(pages);
     }
 
@@ -141,6 +145,8 @@ function SwitchPage (page) {
         page: page,
         set: true
     }
+    ToggleSettings();
+
     GetAllCharacters();
 }
 function OpenDetailView (type, value) {
@@ -158,7 +164,7 @@ function OpenDetailView (type, value) {
         item2 = `<p>Dimensie: ${locations[value].dimension}</p>`;
     }
     $('.detail-view').empty();
-    $('.detail-view').append('<div style="background-color: rgba(0,0,0,1); color: white; padding: 10px; margin: 10px;">'+header+item0+item1+item2+item3+item4+item5+'<a onclick="CloseDetailView()">Close</a></div>');
+    $('.detail-view').append('<div>'+header+item0+item1+item2+item3+item4+item5+'<a class="detail-view-button" onclick="CloseDetailView()">Close</a></div>');
     $('.detail-view').show(200);
 
     
@@ -168,3 +174,14 @@ function OpenDetailView (type, value) {
     $('.detail-view').hide(200);
     $('.detail-view').empty();
  }
+
+ function ToggleSettings () {
+    $('.settings-div').toggle('fast');
+    if (settingsOpen) {
+        $('.settings-button-image').attr("src", "assets/img/search.png");
+        settingsOpen = false;
+    } else {
+        $('.settings-button-image').attr("src", "assets/img/cross.png");
+        settingsOpen = true;
+    }
+}
