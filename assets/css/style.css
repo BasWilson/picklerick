@@ -48,17 +48,19 @@ select {
     border-radius: 12px;
     background-color:rgba(27, 27, 27, 1);
     height: 80px;
-    width: 80px;
+    width: auto;
     cursor: pointer;
-    transition: transform .2s;
+    display: flex;
+    flex-direction: row;
 }
 .settings-button img {
     width: 40px;
     height: 40px;
     padding: 20px;
+    transition: transform .2s;
 }
 
-.settings-button:hover {
+.settings-button img:hover {
     transform: scale(1.1);
 }
 .ricks {
@@ -77,6 +79,7 @@ select {
 
 .character-card img {
     border-radius: 12px;
+    margin-top: 20px;
     width: 200px;
 }
 .detail-view-button {

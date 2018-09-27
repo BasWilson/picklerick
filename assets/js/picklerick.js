@@ -86,68 +86,69 @@ var settingsOpen = false;
 
  function AppendCharacters () {
 
-    GetPages();
-    $('.ricks').empty();
-    for (let i = 0; i < characters.characters.length; i++) {
-
-        var lastDimension
-        //locatie url
-        var locationURL = characters.characters[i].location.url;
-        //haal de numers daaar uit
-        if (locationURL == "") {
-            lastDimension = `<p>Laatste dimensie: Unknown</p>`;
-        } else {
-            var dimNumber = locationURL.match(/\d+/g).map(Number);
-            dimNumber = dimNumber - 1;
-            lastDimension = `<p>Laatste dimensie: ${GetOtherData(2, dimNumber)}</p>`;
-        }
-
-        //episode url
-        var lastEpItem = characters.characters[i].episode[characters.characters[i].episode.length-1];
-        //haal de numers daaar uit
-        var epNumber = lastEpItem.match(/\d+/g).map(Number);
-
-        epNumber = epNumber - 1;
-        const img = `<img src="${characters.characters[i].image}" />`;
-        const name = `<p>Name: ${characters.characters[i].name}</p>`;
-        const status = `<p>Status: ${characters.characters[i].status}</p>`;
-        const species = `<p>Species: ${characters.characters[i].species}</p>`;
-        const origin = `<p>Origin: ${characters.characters[i].origin.name}</p>`;
-        const lastLocationName = `<p>Last location: ${characters.characters[i].location.name}</p>`;;
-        const gender = `<p>Gender: ${characters.characters[i].gender}</p>`;
-        const lastEpisode = `<p>Last episode: ${GetOtherData(0, epNumber)}, ${GetOtherData(1, epNumber)}</p>`;
-        const buttons = `<a onclick="OpenDetailView(2, ${dimNumber});"class="detail-view-button">Location details</a> <a onclick="OpenDetailView(0, ${epNumber});" class="detail-view-button">Episode details</a>`
-
-        const html = img+name+status+species+origin+lastLocationName+lastDimension+gender+lastEpisode+buttons;
-        //Append het aan de html pagina
-        $('.ricks').append(`<div class="character-card">${html}</div>`);
-        document.getElementById('scrollTo').scrollIntoView(true);
-
-
- }
-}
-
-function GetPages () {
+    $('main, footer').hide(300);
+    setTimeout (function () {
+        $('.ricks').empty();
+        for (let i = 0; i < characters.characters.length; i++) {
     
-    if ($('.pages').is(':empty')) {
-        var pages = `<div class="settings-div"><p>Character page <select class="inputField" onchange="SwitchPage(this.value)">`;
-        for (let d = 1; d < characters.info.pages + 1; d++) {
-            pages = pages + `<option value="${d}">${d}</option>`;
+            var lastDimension
+            //locatie url
+            var locationURL = characters.characters[i].location.url;
+            //haal de numers daaar uit
+            if (locationURL == "") {
+                lastDimension = `<p>Laatste dimensie: Unknown</p>`;
+            } else {
+                var dimNumber = locationURL.match(/\d+/g).map(Number);
+                dimNumber = dimNumber - 1;
+                lastDimension = `<p>Laatste dimensie: ${GetOtherData(2, dimNumber)}</p>`;
+            }
+    
+            //episode url
+            var lastEpItem = characters.characters[i].episode[characters.characters[i].episode.length-1];
+            //haal de numers daaar uit
+            var epNumber = lastEpItem.match(/\d+/g).map(Number);
+    
+            epNumber = epNumber - 1;
+            const img = `<img src="${characters.characters[i].image}" />`;
+            const name = `<p>Name: ${characters.characters[i].name}</p>`;
+            const status = `<p>Status: ${characters.characters[i].status}</p>`;
+            const species = `<p>Species: ${characters.characters[i].species}</p>`;
+            const origin = `<p>Origin: ${characters.characters[i].origin.name}</p>`;
+            const lastLocationName = `<p>Last location: ${characters.characters[i].location.name}</p>`;;
+            const gender = `<p>Gender: ${characters.characters[i].gender}</p>`;
+            const lastEpisode = `<p>Last episode: ${GetOtherData(0, epNumber)}, ${GetOtherData(1, epNumber)}</p>`;
+            const buttons = `<a onclick="OpenDetailView(2, ${dimNumber});"class="detail-view-button">Location details</a> <a onclick="OpenDetailView(0, ${epNumber});" class="detail-view-button">Episode details</a>`
+    
+            const html = img+name+status+species+origin+lastLocationName+lastDimension+gender+lastEpisode+buttons;
+            //Append het aan de html pagina
+            $('.ricks').append(`<div class="character-card">${html}</div>`);
+            document.getElementById('scrollTo').scrollIntoView(true);
+            SetNavButtons();
+    
         }
-        pages = pages + `</select></p></div>`;
-        $('.pages').append(pages);
-    }
+    },400);
+    $('main,footer').show(300);
 
 }
 
 function SwitchPage (page) {
-    settings = {
-        page: page,
-        set: true
-    }
-    ToggleSettings();
 
-    GetAllCharacters();
+    if (page == 'next') {
+        if (settings.page < 25) {
+            settings.page++;
+            settings.set = true;
+            SetNavButtons();
+            GetAllCharacters();
+        }
+    } else if (page == 'previous') {
+        if (settings.page > 1) {
+            settings.page--;
+            settings.set = true;
+            SetNavButtons();
+            GetAllCharacters();
+        }
+    }
+
 }
 function OpenDetailView (type, value) {
     //Show detailed data
@@ -175,13 +176,16 @@ function OpenDetailView (type, value) {
     $('.detail-view').empty();
  }
 
- function ToggleSettings () {
-    $('.settings-div').toggle('fast');
-    if (settingsOpen) {
-        $('.settings-button-image').attr("src", "assets/img/search.png");
-        settingsOpen = false;
+ function SetNavButtons () {
+
+    if (settings.page >= 25) {
+        $('#next').attr("src", "assets/img/unavailable.png");
+        $('#previous').attr("src", "assets/img/previous.png");
+    } else if (settings.page <= 1) {
+        $('#previous').attr("src", "assets/img/unavailable.png");
+        $('#next').attr("src", "assets/img/next.png");
     } else {
-        $('.settings-button-image').attr("src", "assets/img/cross.png");
-        settingsOpen = true;
+        $('#next').attr("src", "assets/img/next.png");
+        $('#previous').attr("src", "assets/img/previous.png");
     }
 }

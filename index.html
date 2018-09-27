@@ -22,7 +22,10 @@
         <div class="detail-view"></div>
         <div class="pages"></div>
         <div class="ricks"></div>
-        <div onclick="ToggleSettings()" class="settings-button"><img class="settings-button-image" src="assets/img/search.png" /></div>
+        <div class="settings-button">
+            <div onclick="SwitchPage('previous')"><img id="previous" class="settings-button-image" src="assets/img/previous.png" /></div>
+            <div onclick="SwitchPage('next')"><img id="next" class="settings-button-image" src="assets/img/next.png" /></div>
+        </div>
     </main>
 
     <footer>
