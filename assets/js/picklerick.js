@@ -2,10 +2,9 @@
  * Rick and Morty API uitlezen
  * 
  * Informatie bronnen:
-
+ * https://rickandmortyapi.com/
  * 
  */
-
 
  var characters = {
     info: null,
@@ -122,7 +121,6 @@ var settingsOpen = false;
             const html = img+name+status+species+origin+lastLocationName+lastDimension+gender+lastEpisode+buttons;
             //Append het aan de html pagina
             $('.ricks').append(`<div class="character-card">${html}</div>`);
-            document.getElementById('scrollTo').scrollIntoView(true);
             SetNavButtons();
     
         }
@@ -134,7 +132,7 @@ var settingsOpen = false;
 function SwitchPage (page) {
 
     if (page == 'next') {
-        if (settings.page < 25) {
+        if (settings.page < characters.info.pages) {
             settings.page++;
             settings.set = true;
             SetNavButtons();
