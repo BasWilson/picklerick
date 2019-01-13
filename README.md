@@ -1,3 +1,4 @@
+### DISCLAIMER Sorry that this is not in English...
 # Rick and Morty API in gebruik.
 
 ## Informatie bronnen
